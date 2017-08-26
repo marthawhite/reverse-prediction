@@ -1,0 +1,81 @@
+Author: Vikas Sindhwani
+Version: 11/27/2010
+Please email me at vikas.sindhwani@gmail.com for questions about this code. 
+
+This code reproduces results in the paper: 
+ 
+	Beyond the Point Cloud: from Transductive to Semi-supervised Learning
+	V. Sindhwani, P. Niyogi, M. Belkin
+	International Conference on Machine Learning (ICML), 2005
+	http://people.cs.uchicago.edu/~vikass/SNBFinal.pdf
+
+The paper above gives an alternate view to Manifold Regularization 
+(Belkin, Niyogi, Sindhwani, JMLR 2006). In particular, it implements 
+Laplacian RLS and Laplacian SVMs by creating an appropriate data-dependent kernel.
+  
+(1) REPRODUCING RESULTS 
+
+See below for installation. Once installed, in matlab type:
+
+results=Experiments('USPST.mat') 
+
+to see the results for the USPST dataset.  
+
+The output variable "results" is a struct array containing fields for 
+each split. It records test and transduction confusion matrix, error 
+rate and also the real valued outputs for both svm and rlsc.
+ 
+In the same folder,I am also providing some other 
+datasets: COIL20.mat, TEXT1.mat, G50C.mat, USPST.mat files
+ 
+
+Type:
+
+results=Experiments('USPS_test') 
+
+to see transduction and out-of-sample results for a USPS problem with 
+1607 labeled and unlabeled examples, and 400 unseen test examples. 
+
+Type: 
+
+ExperimentsWebKB('page') etc to see results on the WebKB 
+dataset ('page' for page view, 'link' for link view and 'page+link' for
+page+link view).
+
+Type ExperimentsWebKB('page',1) etc for the results using a multi-view
+regularizer.  The second argument tells the code to use the mean
+laplacian in the 3 views to learn in each (These are results labeled
+LapSVM_joint, LapRLS_joint in the results table in our paper).
+
+(2) MATLAB FUNCTIONS
+
+The semi-supervised kernel is implemented in Deform.m which takes a
+kernel matrix and a graph regularizer as inputs, and outputs the
+semi-supervised kernel that enforces manifold regularization.
+
+Some files that may be useful as stand-alone code:
+
+laplacian.m : Computes graph Laplacian.
+calckernel.m: Computes standard kernels.
+
+
+(3) INSTALLATION:
+
+The only thing that needs to be installed and available on your matlab 
+path is an interface to libsvm which we use for Laplacian SVMs.
+
+The libsvm webpage is:
+http://www.csie.ntu.edu.tw/~cjlin/libsvm/
+
+The libsvm authors provide a matlab interface at:
+http://www.csie.ntu.edu.tw/~cjlin/cgi-bin/matlab.cgi?+http://www.csie.ntu.edu.tw/~cjlin/libsvm/matlab+zip
+
+For windows, the libsvm matlab distribution comes with pre-built binaries. For unix systems, you need to compile the mex files as per 
+their instructions. 
+
+This code was tested with libsvm-mat-3.0-1.zip which you can also download from my website:
+http://people.cs.uchicago.edu/~vikass/libsvm-mat-3.0-1.zip
+
+Once installed, please update your matlab path to point to libsvm-mat-3.0-1 directory. 
+
+
